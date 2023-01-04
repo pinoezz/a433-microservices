@@ -1,0 +1,13 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: docker:stable-dind
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build and push Docker image
+          command: |
+            command: chmod +x build_push_image_karsajobs.sh && ./build_push_image_karsajobs.sh
