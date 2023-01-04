@@ -1,9 +1,9 @@
-version: "2.1"
-orbs:
-  docker: circleci/docker@2.1.4
+version: 2.1
+
 jobs:
   build:
-    executor: docker/machine
+    docker:
+      - image: circleci/golang:1.15
     steps:
       - checkout
       - run:
@@ -23,4 +23,4 @@ jobs:
           command: |
             #!/bin/bash -eo pipefail
             chmod +x build_push_image_karsajobs.sh
-            ./build_push_image_karsajobs.sh
+            bash ./build_push_image_karsajobs.sh
