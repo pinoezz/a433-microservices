@@ -1,13 +1,30 @@
-version: 2
+version: 2.1
 
 jobs:
   build:
     docker:
-      - image: docker:stable-dind
+      - image: circleci/golang:1.15
     steps:
       - checkout
-      - setup_remote_docker
       - run:
-          name: Build and push Docker image
+          name: Install hadolint
+          command: |
+            curl -L -o hadolint https://github.com/hadolint/hadolint/releases/download/v1.17.5/hadolint-Linux-x86_64
+            chmod +x hadolint
+            sudo mv hadolint /usr/local/bin
+      - run:
+          name: Lint Dockerfile
+          command: hadolint Dockerfile
+      - run:
+          name: test-app berisi perintah untuk menjalankan unit test untuk backend
+          command: go test -v -short --count=1 $(go list ./...)
+      - run:
+          name: Docker Build and push
           command: |
             command: chmod +x build_push_image_karsajobs.sh && ./build_push_image_karsajobs.sh
+
+workflows:
+  version: 2
+  lint-and-build:
+    jobs:
+      - build
