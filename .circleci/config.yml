@@ -16,31 +16,11 @@ jobs:
           name: Lint Dockerfile
           command: hadolint Dockerfile
       - run:
+          name: menjalankan unit test untuk backend
+          command: go test -v -short --count=1 $(go list ./...)
+      - run:
           name: Docker Build and push
           command: |
             #!/bin/bash -eo pipefail
             chmod +x build_push_image_karsajobs.sh
             ./build_push_image_karsajobs.sh
-
-workflows:
-  version: 2
-  lint-and-build:
-    jobs:
-      - build
-
-jobs:
-  test-app:
-    docker:
-      - image: circleci/golang:1.15
-    steps:
-      - checkout
-      - run: go test -v -short --count=1 $(go list ./...)
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
-      - test-app:
-          requires:
-            - build
