@@ -1,28 +1,16 @@
+version: "2.1"
+orbs:
+  docker: circleci/docker@2.1.4
 jobs:
   build:
-    working_directory: /app
     docker:
       - image: docker:17.05.0-ce-git
     steps:
       - checkout
       - setup_remote_docker
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --no-cache \
-              py-pip=9.0.0-r1
-            pip install \
-              docker-compose==1.12.0 \
-              awscli==1.11.76
-      - run:
-          name: Install hadolint
-          command: |
-            curl -L -o hadolint https://github.com/hadolint/hadolint/releases/download/v1.17.5/hadolint-Linux-x86_64
-            chmod +x hadolint
-            sudo mv hadolint /usr/local/bin
-      - run:
-          name: Lint Dockerfile
-          command: hadolint Dockerfile
+      - docker/dockerlint:
+          dockerfile: Dockerfile
+          treat-warnings-as-errors: true
       - run:
           name: menjalankan unit test untuk backend
           command: go test -v -short --count=1 $(go list ./...)
@@ -32,3 +20,7 @@ jobs:
             #!/bin/bash -eo pipefail
             chmod +x build_push_image_karsajobs.sh
             bash ./build_push_image_karsajobs.sh
+workflows:
+  lint-and-build:
+    jobs:
+      - build
