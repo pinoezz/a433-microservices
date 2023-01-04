@@ -4,13 +4,15 @@ orbs:
 jobs:
   build:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: circleci/node:14
     steps:
       - checkout
-      - setup_remote_docker
-      - docker/dockerlint:
-          dockerfile: Dockerfile
-          treat-warnings-as-errors: true
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Run Dockerlint
+          command: dockerlint .
       - run:
           name: menjalankan unit test untuk backend
           command: go test -v -short --count=1 $(go list ./...)
