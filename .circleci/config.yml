@@ -3,13 +3,9 @@ orbs:
   docker: circleci/docker@2.1.4
 jobs:
   build:
-    docker:
-      - image: circleci/node:14
+    executor: docker/machine
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: npm install
       - docker/dockerlint:
           dockerfile: Dockerfile
           treat-warnings-as-errors: true
@@ -19,7 +15,6 @@ jobs:
       - run:
           name: Docker Build and push
           command: |
-            #!/bin/bash -eo pipefail
             chmod +x build_push_image_karsajobs.sh
             bash ./build_push_image_karsajobs.sh
 workflows:
