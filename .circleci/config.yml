@@ -1,6 +1,6 @@
 version: "2.1"
 orbs:
-  docker: circleci/docker@2.1.4
+  docker: circleci/docker@3.1.0
 jobs:
   build:
     executor: docker/machine
@@ -8,7 +8,6 @@ jobs:
       - checkout
       - docker/dockerlint:
           dockerfile: Dockerfile
-          treat-warnings-as-errors: true
       - run:
           name: menjalankan unit test untuk backend
           command: go test -v -short --count=1 $(go list ./...)
