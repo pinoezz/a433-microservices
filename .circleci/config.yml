@@ -1,0 +1,19 @@
+version: "2.1"
+orbs:
+  docker: circleci/docker@2.2.0
+jobs:
+  build:
+    executor: docker/machine
+    steps:
+      - checkout
+      - docker/dockerlint:
+          dockerfile: Dockerfile
+      - run:
+          name: Docker Build and push
+          command: |
+            chmod +x build_push_image_karsajobs.sh
+            bash ./build_push_image_karsajobs.sh
+workflows:
+  lint-and-build-push:
+    jobs:
+      - build
