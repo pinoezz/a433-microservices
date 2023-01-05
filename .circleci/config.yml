@@ -11,8 +11,8 @@ jobs:
       - run:
           name: Docker Build and push
           command: |
-            chmod +x build_push_image_karsajobs-ui.sh
-            bash ./build_push_image_karsajobs-ui.sh
+            chmod +x build_push_image_karsajobs_ui.sh
+            bash ./build_push_image_karsajobs_ui.sh
 workflows:
   lint-and-build-push:
     jobs:
