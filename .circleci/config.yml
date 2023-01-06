@@ -1,19 +1,19 @@
 version: "2.1"
 orbs:
-  docker: circleci/docker@2.2.0
+  docker: circleci/docker@2.2.0 #  "docker" adalah nama dari sebuah orb yang menyediakan perintah-perintah yang berkaitan dengan pengelolaan container Docker
 jobs:
   build:
-    executor: docker/machine
+    executor: docker/machine # mesin Docker akan digunakan sebagai platform untuk menjalankan tahapan pembuatan
     steps:
-      - checkout
-      - docker/dockerlint:
+      - checkout # menandakan bahwa kode sumber aplikasi atau produk akan di-check out dari version control system
+      - docker/dockerlint: #  Memeriksa file Dockerfile menggunakan Dockerlint
           dockerfile: Dockerfile
       - run:
-          name: Docker Build and push
+          name: Docker Build and push # Mengubah hak akses menjadi dapat di execute dan menajlankan file script menggunakan bash
           command: |
-            chmod +x build_push_image_karsajobs_ui.sh
-            bash ./build_push_image_karsajobs_ui.sh
-workflows:
+            chmod +x build_push_image_karsajobs_ui.sh 
+            bash ./build_push_image_karsajobs_ui.sh 
+workflows: # Proses pembuatan aplikasi 
   lint-and-build-push:
     jobs:
       - build
