@@ -6,8 +6,9 @@ jobs:
     executor: docker/machine # mesin Docker akan digunakan sebagai platform untuk menjalankan tahapan pembuatan
     steps:
       - checkout # menandakan bahwa kode sumber aplikasi atau produk akan di-check out dari version control system
-      - docker/dockerlint: #  Memeriksa file Dockerfile menggunakan Dockerlint
-          dockerfile: Dockerfile
+      - run:
+           name: Test Dockerfile
+           command: ./hadolint Dockerfile
       - run:
           name: Docker Build and push # Mengubah hak akses menjadi dapat di execute dan menajlankan file script menggunakan bash
           command: |
@@ -17,3 +18,8 @@ workflows: # Proses pembuatan aplikasi
   lint-and-build-push:
     jobs:
       - build
+
+dependencies:
+  pre:
+    - curl -L https://github.com/garethr/dockerlint/releases/download/v0.2.0/dockerlint-linux-amd64 > dockerlint
+    - chmod +x dockerlint
