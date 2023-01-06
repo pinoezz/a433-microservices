@@ -1,11 +1,7 @@
- 
-apiVersion: apps/v1
+ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: "1"
-  creationTimestamp: "2023-01-05T08:54:08Z"
-  generation: 1
   labels:
     app.kubernetes.io/component: grafana
     app.kubernetes.io/name: grafana
@@ -13,8 +9,6 @@ metadata:
     app.kubernetes.io/version: 9.3.2
   name: grafana
   namespace: monitoring
-  resourceVersion: "5157"
-  uid: 19201472-67bd-4c23-a715-04abf8f38c28
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -31,11 +25,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      annotations:
-        checksum/grafana-config: adbde4cde1aa3ca57c408943af53e6f7
-        checksum/grafana-dashboardproviders: d8fb24844314114bed088b83042b1bdb
-        checksum/grafana-datasources: 0800bab7ea1e2d8ad5c09586d089e033
-      creationTimestamp: null
       labels:
         app.kubernetes.io/component: grafana
         app.kubernetes.io/name: grafana
@@ -266,22 +255,3 @@ spec:
         secret:
           defaultMode: 420
           secretName: grafana-config
-status:
-  availableReplicas: 1
-  conditions:
-  - lastTransitionTime: "2023-01-05T08:55:53Z"
-    lastUpdateTime: "2023-01-05T08:55:53Z"
-    message: Deployment has minimum availability.
-    reason: MinimumReplicasAvailable
-    status: "True"
-    type: Available
-  - lastTransitionTime: "2023-01-05T08:54:08Z"
-    lastUpdateTime: "2023-01-05T08:55:53Z"
-    message: ReplicaSet "grafana-9f58f8675" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  observedGeneration: 1
-  readyReplicas: 1
-  replicas: 1
-  updatedReplicas: 1
