@@ -2,9 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: "1"
-  creationTimestamp: "2023-01-05T08:54:12Z"
-  generation: 1
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: prometheus-operator
@@ -107,10 +104,6 @@ spec:
       serviceAccount: prometheus-operator
       serviceAccountName: prometheus-operator
       terminationGracePeriodSeconds: 30
-status:
-  availableReplicas: 1
-  conditions:
-  - lastTransitionTime: "2023-01-05T08:59:37Z"
     lastUpdateTime: "2023-01-05T08:59:37Z"
     message: Deployment has minimum availability.
     reason: MinimumReplicasAvailable
