@@ -8,7 +8,7 @@ jobs:
       - checkout # menandakan bahwa kode sumber aplikasi atau produk akan di-check out dari version control system
       - run:
            name: Test Dockerfile
-           command: ./hadolint Dockerfile
+           command: dockerlint -f Dockerfile
       - run:
           name: Docker Build and push # Mengubah hak akses menjadi dapat di execute dan menajlankan file script menggunakan bash
           command: |
