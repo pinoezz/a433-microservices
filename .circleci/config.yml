@@ -7,9 +7,8 @@ jobs:
     executor: docker/machine
     steps:
       - checkout
-      - run:
-          name: Test Dockerfile
-          command: ./hadolint Dockerfile
+      - docker/hadolint:
+          dockerfiles: 'api/Dockerfile, engine/Dockerfile, ui/Dockerfile'
       - run:
           name: Docker Build and push
           command: |
