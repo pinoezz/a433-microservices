@@ -1,25 +1,27 @@
 version: "2.1"
 orbs:
-  docker: circleci/docker@2.2.0 #  "docker" adalah nama dari sebuah orb yang menyediakan perintah-perintah yang berkaitan dengan pengelolaan container Docker
+  docker: circleci/docker@2.2.0
+
 jobs:
   build:
-    executor: docker/machine # mesin Docker akan digunakan sebagai platform untuk menjalankan tahapan pembuatan
+    executor: docker/machine
     steps:
-      - checkout # menandakan bahwa kode sumber aplikasi atau produk akan di-check out dari version control system
+      - checkout
       - run:
-           name: Test Dockerfile
-           command: dockerlint -f Dockerfile
+          name: Test Dockerfile
+          command: ./hadolint Dockerfile
       - run:
-          name: Docker Build and push # Mengubah hak akses menjadi dapat di execute dan menajlankan file script menggunakan bash
+          name: Docker Build and push
           command: |
             chmod +x build_push_image_karsajobs_ui.sh 
             bash ./build_push_image_karsajobs_ui.sh 
-workflows: # Proses pembuatan aplikasi 
+
+workflows:
   lint-and-build-push:
     jobs:
       - build
 
 dependencies:
   pre:
-    - curl -L https://github.com/garethr/dockerlint/releases/download/v0.2.0/dockerlint-linux-amd64 > dockerlint
-    - chmod +x dockerlint
+    - curl -L https://github.com/hadolint/hadolint/releases/download/v1.18.1/hadolint-Linux-x86_64 -o hadolint
+    - chmod +x hadolint
