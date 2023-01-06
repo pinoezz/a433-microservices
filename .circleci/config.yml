@@ -6,8 +6,9 @@ jobs:
     executor: docker/machine # mesin Docker akan digunakan sebagai platform untuk menjalankan tahapan pembuatan
     steps:
       - checkout # menandakan bahwa kode sumber aplikasi atau produk akan di-check out dari version control system
-      - docker/dockerlint: 
-          dockerfile: Dockerfile
+      - run:
+          name: Run hadolint #  proses untuk menginstal hadolint dan menjalankannya terhadap berkas Dockerfile
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
       - run:
           name: menjalankan unit test untuk backend
           command: go test -v -short --count=1 $(go list ./...)
