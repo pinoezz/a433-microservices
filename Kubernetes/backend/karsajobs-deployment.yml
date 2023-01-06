@@ -1,0 +1,46 @@
+  apiVersion: apps/v1
+  kind: Deployment # Deployment adalah objek di Kubernetes yang digunakan untuk mengelola aplikasi atau layanan yang dijalankan di dalam cluster
+  metadata:
+    name: karsajobs
+    labels:
+      app: karsajobs
+    name: karsajobs
+    namespace: dicoding-be # Namespace khusus backend
+  spec:
+    progressDeadlineSeconds: 600 # Batas waktu (dalam detik) yang akan digunakan oleh Deployment untuk memastikan bahwa replika yang baru di-rollout telah siap untuk digunakan
+    replicas: 3 #  Jumlah replika yang akan dijalankan oleh Deployment
+    revisionHistoryLimit: 10 # Jumlah revisi Deployment yang akan disimpan oleh Deployment
+    selector:
+      matchLabels:
+        app: karsajobs
+    template:
+      metadata:
+        labels:
+          app: karsajobs
+      spec:
+        containers:
+        - image: pinoezz/karsajobs:latest # Image di registry DockerHub
+          imagePullPolicy: Always
+          name: karsajobs
+          ports:
+          - containerPort: 8080 # Port yang akan digunakan oleh aplikasi atau layanan yang dijalankan di dalam container. Port ini akan digunakan oleh aplikasi atau layanan untuk menerima koneksi dari luar container
+            protocol: TCP # Protocol TCP untuk menerima koneksi
+          resources:
+            requests:
+              cpu: 50m # Container membutuhkan setidaknya 50 milli-core (mcore) CPU
+              memory: 128Mi # Container membutuhkan setidaknya 128 MiB memori
+          env: # menambahkan environment variabel ke dalam container
+            - name: APP_PORT
+              value: "8080"
+            - name: MONGO_HOST
+              value: "mongo"
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGO_ROOT_USERNAME
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGO_ROOT_PASSWORD

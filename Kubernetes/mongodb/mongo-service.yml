@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service # Objek di Kubernetes yang digunakan untuk mengelola akses ke pod atau aplikasi lainnya di dalam cluster
+metadata:
+  name: mongo
+  namespace: dicoding-db # Namespace khusus database
+  labels: # Objek di Kubernetes yang dapat digunakan untuk mengelompokkan objek
+    app: mongo
+spec:
+  ports:
+    - port: 27017 # Menggunakan port mongodb
+      targetPort: 27017 # port yang akan digunakan oleh Service untuk mengirim request ke pod yang terhubung dengannya
+  selector: # Menentukan pod atau aplikasi yang terkait dengan Service atau Deployment
+    app: mongo

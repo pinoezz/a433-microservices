@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: PersistentVolume # PersistentVolume (PV) adalah objek di Kubernetes yang digunakan untuk mengelola sumber daya penyimpanan yang tersedia di cluster
+metadata:
+  name: mongo-pv
+  namespace: dicoding-db # Namespace khusus database
+  labels:
+    type: ebs # Menggunakan AWS Elastic Block Store (EBS) 
+spec:
+  storageClassName: ebs # Nama yang diberikan kepada StorageClass di Kubernetes
+  capacity:
+    storage: 1Gi # Kapasitas storage database
+  accessModes:
+    - ReadWriteOnce # PersistentVolumeClaim yang terikat ke volume hanya dapat ditulisi dan dibaca sekali saja
+  hostPath: # Menggunakan penyimpanan lokal pada node sebagai sumber daya penyimpanan
+    path: "/data/db" # lokasi atau dari file db
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim # Objek di Kubernetes yang digunakan untuk mengakses penyimpanan
+metadata:
+  name: mongo-pv-claim
+  namespace: dicoding-db
+  labels:
+    app: mongo
+spec:
+  storageClassName: ebs # Nama yang diberikan kepada StorageClass di Kubernetes
+  accessModes:
+    - ReadWriteOnce # # PersistentVolumeClaim yang terikat ke volume hanya dapat ditulisi dan dibaca sekali saja
+  resources:
+    requests:
+      storage: 1Gi # Spesifikasi sumber daya yang dibutuhkan oleh aplikasi

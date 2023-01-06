@@ -1,0 +1,16 @@
+ apiVersion: v1
+kind: Service
+metadata:
+  name: karsajobs-ui
+  labels:
+    app: karsajobs-ui
+    namespace: dicoding-fe # Namespace khusus frontend
+spec:
+  type: NodePort # Service akan tersedia di semua node di dalam cluster pada port yang ditentukan (node port)
+  selector: # Menentukan label yang digunakan untuk menyeleksi pod atau aplikasi yang terkait dengan Service
+    app: karsajobs-ui
+  ports:
+    - port: 80 # port yang akan digunakan oleh Service untuk mendengarkan request dari luar cluster
+      protocol: TCP # protokol yang akan digunakan oleh Service untuk berkomunikasi dengan request yang datang
+      targetPort: 80 # port yang akan digunakan oleh Service untuk mengirim request ke pod yang terhubung dengannya
+      nodePort: 30002 # mendengarkan request pada port 30002 pada node yang menjalankan pod yang terhubung dengan Service

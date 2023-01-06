@@ -1,0 +1,31 @@
+  apiVersion: apps/v1
+  kind: Deployment # Deployment adalah objek di Kubernetes yang digunakan untuk mengelola aplikasi atau layanan yang dijalankan di dalam cluster
+  metadata:
+    name: karsajobs
+    labels:
+      app: karsajobs-ui
+    name: karsajobs-ui
+    namespace: dicoding-fe # Namespace khusus frontend
+  spec:
+    progressDeadlineSeconds: 600 # Batas waktu (dalam detik) yang akan digunakan oleh Deployment untuk memastikan bahwa replika yang baru di-rollout telah siap untuk digunakan
+    replicas: 3 #  Jumlah replika yang akan dijalankan oleh Deployment
+    revisionHistoryLimit: 10 # Jumlah revisi Deployment yang akan disimpan oleh Deployment
+    selector:
+      matchLabels:
+        app: karsajobs-ui
+    template:
+      metadata:
+        labels:
+          app: karsajobs-ui
+      spec:
+        containers:
+        - image: pinoezz/karsajobs-ui:latest # Image di registry DockerHub
+          imagePullPolicy: Always
+          name: karsajobs-ui
+          ports:
+          - containerPort: 80 # Port yang akan digunakan oleh aplikasi atau layanan yang dijalankan di dalam container. Port ini akan digunakan oleh aplikasi atau layanan untuk menerima koneksi dari luar container
+            protocol: TCP # protokol yang akan digunakan oleh Service untuk berkomunikasi dengan request yang datang
+          resources:
+            requests:
+              cpu: 50m # Container membutuhkan setidaknya 50 milli-core (mcore) CPU
+              memory: 128Mi # Container membutuhkan setidaknya 128 MiB memori

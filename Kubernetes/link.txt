@@ -1,0 +1,7 @@
+Docker hub link :
+frontend : https://hub.docker.com/r/pinoezz/karsajobs-ui
+backend : https://hub.docker.com/r/pinoezz/karsajobs
+
+CircleCI :
+Backend : https://app.circleci.com/pipelines/github/pinoezz/a433-microservices?branch=karsajobs
+Frontend : https://app.circleci.com/pipelines/github/pinoezz/a433-microservices?branch=karsajobs-ui

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap # Objek konfigurasi di Kubernetes yang digunakan untuk menyimpan konfigurasi yang dapat diubah secara terpisah dari aplikasi yang menggunakannya
+metadata:
+  name: mongo-config # Nama Configmap
+  namespace: dicoding-db # Namespace khusus database
+data:
+  mongo.conf: | # menentukan lokasi di sistem file tempat file data MongoDB harus disimpan
+    storage:
+      dbPath: /data/db
